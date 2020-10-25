@@ -1,0 +1,11 @@
+input[type="file"]{
+    visibility: hidden;
+}
+
+.preview{
+    height:5rem;
+}
+
+.preview img{
+    height: 100%;
+}

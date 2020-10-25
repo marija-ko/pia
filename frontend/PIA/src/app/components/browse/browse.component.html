@@ -1,0 +1,88 @@
+
+<div class="container h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+      <div class="card m-3 text-center bg-light" style="max-width: 50rem;">
+        <div class="card-body text-center">
+          <form class="form-inline my-2 my-lg-0" (submit)= "onSearch()" >
+            <input class="form-control mr-sm-2" type="search" name="author" [(ngModel)]= "author" placeholder="Search by author">
+            <input class="form-control mr-sm-2" type="search" 
+            [(ngModel)]= "title" name="title" placeholder="Search by title">
+            <select class="custom-select mr-sm-2 form-control" [(ngModel)]= "genre" name="genre">
+              <option *ngFor="let genre of genres; let i=index" value="{{genre.name}}">{{genre.name}}</option>
+            </select>
+            <button class="btn btn-outline-secondary my-2 mr-sm-2" type="submit">Search</button>
+            <button class="btn btn-outline-danger my-2 my-sm-0" (click)="onReset()"type="button">Reset</button>
+
+          </form>
+        </div>
+      </div>
+  </div>
+  <div class="list-group" *ngIf="books && books.length>0">
+    <div *ngFor="let book of books; let i=index">
+    <div class="list-group-item list-group-item-action flex-column align-items-start"
+    *ngIf="book.status==='active'" >
+      <div class="d-flex w-100 justify-content-between">
+        <a [routerLink]="['/book', book.id]"><h5 class="mb-1">{{book.name}}</h5></a>
+        <small>Rating: {{book.rating}}/10</small>
+      </div>
+      <small>{{book.authors.join(', ')}}</small>
+      <p class="mb-1">{{book.summary}}</p>
+      <small class="text-muted">Genres: {{book.genres.join(', ')}}</small>
+      <div class="text-right">
+        <button type="button" class="btn btn-outline-danger my-3"  *ngIf="isAuthenticated && (userRole==='admin' )" (click)="onDeleteBook(book.id)">
+          Delete
+        </button>
+      </div>
+    </div>
+    
+    <div class="list-group-item list-group-item-action flex-column align-items-start" *ngIf="book.status==='pending'">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 text-muted">{{book.name}}</h5>
+      <small class="text-muted">Rating: {{book.rating}}/10</small>
+    </div>
+    <small class="text-muted">{{book.authors.join(', ')}}</small>
+    <p class="mb-1" class="text-muted">{{book.summary}}</p>
+    <small class="text-muted">Genres: {{book.genres.join(', ')}}</small>
+    <div class="d-flex justify-content-between">
+                  
+      <button type="button" class="btn btn-outline-success my-3" *ngIf="isAuthenticated && (userRole==='moderator' || userRole==='admin' )"
+      (click)="onApproveBook(book.id)">
+        Approve
+      </button>
+
+      <button type="button" class="btn btn-outline-danger my-3"  *ngIf="isAuthenticated && (userRole==='moderator' || userRole==='admin' )" (click)="onDeleteBook(book.id)">
+          Delete
+        </button>
+
+    </div>
+  </div>
+    </div>
+  </div>
+  <div class="card m-3 text-center bg-light" *ngIf="!books || books.length==0 && isAuthenticated">
+    <div class="card-body">
+      <h3 class="card-title font-weight-light">Can't find a book? Add a new one.</h3>
+      <a routerLink="/addBook" class="btn btn-outline-primary">Add a book</a>
+    </div>
+  </div>
+  <br/>
+  <div class="card bg-light" *ngIf="events && events.length">
+    <div class="card-body">
+      <h3 class="card-title font-weight-light">Upcoming events</h3>
+      <p class="card-text" *ngIf="!isAuthenticated">Register or sign in to see more.</p>
+    </div>
+    <div *ngFor="let event of events">
+    <div class="list-group-item list-group-item-action list-group-flush flex-column" *ngIf="isUpcoming(event)">
+      <div class="d-flex w-100 justify-content-between" >
+        <h5 class="mb-1 font-weight-light" *ngIf="!isAuthenticated">{{event.name}}</h5>
+        <a [routerLink]="['/event', event.id]" *ngIf="isAuthenticated"><h5 class="mb-1 font-weight-light" >{{event.name}}</h5></a>
+        <div class="text-muted" *ngIf="!activeEvent(event)">Start: {{event.start.getDate()}}.{{event.start.getMonth()+1}}.{{event.start.getFullYear()}}</div>
+        <div class="text-success" *ngIf="activeEvent(event)">Active now</div>
+
+      </div>
+     </div>
+  </div>
+</div>
+  
+</div>
+
+  

@@ -1,0 +1,60 @@
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="card m-3 text-center" style="width: 50rem;">
+            <h2 class="card-header font-weight-light">
+                Sign in
+            </h2>
+            <div class="card-body text-center">
+                <p class = "text-left font-weight-light">
+                    Sign in to browse countless books and literature events, leave comments and reviews.
+                </p>            
+                <form (submit)="onSubmit(loginForm)" #loginForm="ngForm">
+                    <div class="form-group">
+                        <label for="loginUsername">
+                            Username
+                        </label>
+                        <input type="text" class="form-control" 
+                        id="loginUsername" name="username" ngModel placeholder="Enter your username"
+                        #username="ngModel" required 
+                        [class.is-invalid]="(username.dirty || username.touched) && username.invalid ">
+                        <small *ngIf="username.invalid && (username.touched || username.dirty)"class="text-danger">
+                            This field is required.
+                        </small>  
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">
+                            Password
+                        </label>
+                        <input type="password" class="form-control" id="loginPassword" 
+                        placeholder="Password" name="password" ngModel #password="ngModel" required
+                        [class.is-invalid]="(password.dirty || password.touched) && password.invalid ">
+                        <small *ngIf="password.invalid && (password.touched || password.dirty)"class="text-danger">
+                            This field is required.
+                        </small> 
+                    </div>
+                    <button type="submit" 
+                    class="btn btn-outline-primary btn-lg btn-block">
+                        Login
+                    </button>
+                </form>
+                <h3 class = "text-center font-weight-light"> or </h3>
+                    <button type="submit" class="btn btn-outline-secondary 
+                    btn-lg btn-block" (click)="continueAsGuest()">
+                        Continue as a guest
+                    </button>
+                    <p class = "text-left">
+                        Or create an account 
+                        <a href="/register"> here </a>.
+                    </p>
+            </div>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show" *ngIf ="showMessage" role="alert">
+            <strong>Authentication Failed!</strong> 
+                Wrong credentials.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+

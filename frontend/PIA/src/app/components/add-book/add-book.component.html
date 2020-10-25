@@ -1,0 +1,133 @@
+<div class="container h-100">
+    <div class="card m-3 text-center bg-light">
+        <div class="card-body text-center">
+            <h3 class="card-title font-weight-light">Add a new book.</h3>
+
+            <form [formGroup]="bookForm">                
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Book title" formControlName="name"
+                    [class.is-invalid]="(name.dirty || name.touched) && name.invalid"
+                    [class.is-valid]="(name.dirty || name.touched) && !(name.invalid)" required>
+                    <small  *ngIf="(name.dirty || name.touched) && name.invalid" class="text-danger">
+                        This field is required.
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <input type="text" class="form-control"  name="authors" 
+                    placeholder="Book authors. In case of more than one, separate with a comma."formControlName="authors"
+                    [class.is-invalid]="(authors.dirty || authors.touched) && authors.invalid"
+                    [class.is-valid]="(authors.dirty || authors.touched)   && !(authors.invalid)" required>
+                    <small  *ngIf="(authors.dirty || authors.touched) && authors.invalid "
+                    class="text-danger">
+                        This field is required.
+                    </small>
+                </div>
+            <div class="form-group container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            <button type="button" class="btn btn-primary"
+                            (click)="imagePicker.click()">
+                                Pick a cover photo
+                            </button>
+                        </div>
+                        <input type="file" class="form-control-file" #imagePicker (change)="onImagePicked($event)">
+                    </div>
+                    <div class="preview col-md-6" *ngIf="coverPreview && coverPreview != '' && bookForm.get('cover').valid">
+                        <img [src]="coverPreview">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <textarea class="form-control" name="summary" placeholder="Short summary of a book" 
+                formControlName="summary"
+                [class.is-invalid]="(summary.dirty || summary.touched) && summary.invalid"
+                [class.is-valid]="(summary.dirty || summary.touched) && !(summary.invalid)"
+                required></textarea>
+                <small *ngIf="(summary.dirty || summary.touched) 
+                && summary.invalid"
+                class="text-danger">
+                        This field is required.
+                </small>
+            </div>
+            <div class="form-group container">
+                <label class="col-form-label">
+                Choose genre (at least one, at most three)
+                </label>
+                <div class="row">
+                
+                <select class="custom-select form-control col-md-4 my-2" formControlName= "genre1" name="genre1">
+                    <option *ngFor="let genre of genres; let i=index" value="{{genre.name}}">{{genre.name}}</option>
+                </select>
+                <select class="custom-select form-control col-md-4 my-2" formControlName= "genre2" name="genre2">
+                    <option *ngFor="let genre of genres; let i=index" value="{{genre.name}}">{{genre.name}}</option>
+                </select>
+                <select class="custom-select form-control col-md-4 my-2" formControlName= "genre3" name="genre3">
+                    <option *ngFor="let genre of genres; let i=index" value="{{genre.name}}">{{genre.name}}</option>
+                </select>
+            </div>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">
+                    Pages:
+                </label>
+                <input type="number" class="form-control" 
+                placeholder="100" name="pages"
+                formControlName="pages"
+                [class.is-invalid]="(pages.dirty || pages.touched) && pages.invalid"
+                [class.is-valid]="(pages.dirty || pages.touched) && !(pages.invalid)" required>
+                <small *ngIf="(pages.dirty || pages.touched)  && pages.invalid"
+                class="text-danger">
+                    This field is required.
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label class=" col-form-label">
+                    Date of publishing:
+                </label>
+                <input type="date" name="date" 
+                max="2020-12-31" 
+                min="1000-01-01" class="form-control"
+                formControlName="published"
+                [class.is-invalid]="(published.dirty || published.touched) 
+                && published.invalid"
+                [class.is-valid]="(published.dirty || published.touched) 
+                && !(published.invalid)"
+                required>
+                <small  *ngIf="(published.dirty || published.touched) 
+                && published.invalid"
+                class="text-danger">
+                    This field is required.
+                </small>
+            </div>
+            <div class="d-flex justify-content-between" *ngIf="mode==='add'">
+                  
+                <button type="button" class="btn btn-outline-success" [disabled]="!bookForm.valid" (click)="onAddBook()">
+                    Add book
+                </button>
+
+                <button type="button" class="btn btn-outline-danger" (click)="onCancel()">
+                    Cancel
+                </button>
+
+              </div>
+              <div class="d-flex justify-content-between" *ngIf="mode==='edit'">
+                  
+                <button type="button" class="btn btn-outline-success" [disabled]="!bookForm.valid" (click)="onEditBook()">
+                    Apply changes
+                </button>
+
+                <button type="button" class="btn btn-outline-danger" (click)="onCancel()">
+                    Cancel
+                </button>
+
+              </div>
+            
+            <br/>
+        </form>
+        </div>
+    </div>
+</div>

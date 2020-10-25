@@ -1,0 +1,65 @@
+<div class="container h-100">
+
+    <table class="table table-striped table-hover my-3" width="100%">
+        <thead>
+            <tr>
+                <th>Username
+                </th>
+                <th>Status
+                </th>
+                <th >Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{user.username}}</td>
+            <td >{{user.status}}</td>
+            <td ><button type="button" class="btn btn-outline-success mr-2" *ngIf="user.status==='pending'" (click)="onAcceptUser(user)">Accept</button>
+            <button type="button" class="btn btn-outline-primary mr-2" *ngIf="user.status==='active'"(click)=" onModerator(user)">Make a moderator</button>
+            <button type="button" class="btn btn-outline-warning mr-2" *ngIf="user.status==='moderator'"(click)=" onAcceptUser(user)">Demote</button>
+            <button type="button" class="btn btn-outline-danger mr-2"  *ngIf="user.status!=='admin'"(click)="onDeleteUser(user)">Delete</button></td>
+
+          </tr>                 
+        </tbody>
+      </table>
+      <button class="btn btn-outline-primary my-2 mr-sm-2" type="button" routerLink="/register">Add a new user</button>
+
+      <table class="table table-striped table-hover my-3" width="100%" *ngIf="genres">
+        <thead>
+            <tr>
+                <th>Genre
+                </th>
+                <th>Delete
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let genre of genres">
+            <td>{{genre.name}}</td>
+            <td>
+            <button type="button" class="btn btn-outline-danger mr-2" (click)="onDeleteGenre(genre)">Delete</button></td>
+
+          </tr>                 
+        </tbody>
+      </table>
+      <div class="alert alert-danger alert-dismissible fade show" *ngIf ="deleteMessage" role="alert"> 
+            {{deleteMessage}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="row h-100 justify-content-center align-items-center">
+        <div class="card m-3 text-center bg-light">
+            <h3 class="card-header font-weight-light">Add a new genre</h3>
+          <div class="card-body text-center">
+            <form class="form-inline my-2 my-lg-0" (submit)= "onAddGenre()" >
+              <input class="form-control mr-sm-2" type="text" name="newGenre" [(ngModel)]= "newGenre" placeholder="Name of the genre">
+              <button class="btn btn-outline-primary my-2 mr-sm-2" type="submit">Add</button>
+  
+            </form>
+          </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,70 @@
+<div class="container h-100">
+    <div class="jumbotron" *ngIf="event">
+        <h1 class="display-4">{{event.name}}</h1>
+        <p class="lead"> Organized by: <a [routerLink]="['/user', event.username]">{{event.username}}</a></p>
+        <p class="lead"> {{event.caption}}</p>
+        <hr class="my-4">
+        <div class="d-flex w-100 justify-content-between">
+            <div class="mb-1 font-weight-light">Start: {{event.start.getDate()}}.{{event.start.getMonth()+1}}.{{event.start.getFullYear()}}</div>
+            <div class="mb-1 font-weight-light" *ngIf="event.end" >End: {{event.end.getDate()}}.{{event.end.getMonth()+1}}.{{event.end.getFullYear()}}</div>
+            <div class="mb-1 font-weight-light"></div>
+
+        </div>
+        <div class="text-center mb-1 p-1" *ngIf="event.userId===userId">  
+            <button type="button" class="btn btn-outline-primary" *ngIf="!activeEvent()" (click)="onStart()">
+                Start           
+            </button>
+            <button type="button" class="btn btn-outline-danger" *ngIf="activeEvent()" (click)="onEnd()">
+                End           
+            </button>
+        </div>
+    </div>
+    <ul class="nav nav-tabs" role="tablist" *ngIf="isParticipant()">
+        <li class="nav-item">
+          <a class="nav-link active" id="comments-tab" data-toggle="tab" href="#comments" role="tab" 
+        aria-controls="comments" aria-selected="true">Comments</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="newComment-tab" data-toggle="tab" href="#newComment" role="tab" aria-controls="newComment" aria-selected="false">Add a comment</a>
+        </li>
+        
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+          <div *ngIf="comments">
+              <div class="container my-2 my-lg-0" *ngFor="let comment of comments" >
+                  <div class="card m-3 ">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                          <h5><a class="card-title" [routerLink]="['/user', comment.username]"> {{comment.username}} </a></h5>
+                        </div>
+                      <p class="card-text">{{comment.body}}</p>
+                      <div class="d-flex justify-content-between" *ngIf="userId === comment.userId">
+      
+                        <button type="button" class="btn btn-outline-danger" (click)="onDelete(comment)">Delete</button>
+      
+                      </div>
+                      </div>
+                  </div>
+              </div>
+          </div>  
+      
+        </div>
+        <div class="tab-pane fade" *ngIf="isParticipant()" id="newComment" role="tabpanel" aria-labelledby="newComment-tab">
+            
+          <div class="card m-3 bg-light">
+              <div class="card-body">
+                <form class="form my-2 my-lg-0">
+                  <h5 class="font-weight-light">
+                    Leave a comment: 
+                  </h5>
+                  <textarea class="form-control" name="newComment" rows="5" [(ngModel)]="body" placeholder="Say something"></textarea>
+                  <button class="btn btn-outline-primary my-2 mr-sm-2" (click)="addComment()">Submit</button>
+                </form>
+            </div>
+          
+            </div>
+        </div>      
+      
+        </div>
+</div>

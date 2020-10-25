@@ -1,0 +1,277 @@
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="card m-3 text-center" style="width: 50rem;">
+            <h2 class="card-header font-weight-light">Sign up</h2>
+                    <div class="card-body text-center">
+                        <p class = "text-center font-weight-light">
+                            Create a new account.
+                        </p>
+                    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">                
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="registerName" 
+                                class="col-form-label">
+                                    First Name
+                                </label>
+                                <input type="text" class="form-control"
+                                id="registerName"  
+                                placeholder="Enter your first name"
+                                formControlName="name"
+                                [class.is-invalid]="(name.dirty || name.touched) 
+                                && name.invalid && name.errors.required"
+                                [class.is-valid]="(name.dirty || name.touched) 
+                                && !(name.invalid)"
+                                required>
+                                <small  *ngIf="(name.dirty || name.touched) 
+                                && name.invalid && name.errors.required"
+                                class="text-danger">
+                                    This field is required.
+                                </small>
+                            </div>
+                            
+                            <div class="form-group col-md-6">
+                                <label for="registerSurname" 
+                                class=" col-form-label">
+                                    Last Name
+                                </label>
+                                <input type="text" class="form-control" 
+                                id="registerSurname" name="surname" 
+                                placeholder="Enter your last name"
+                                formControlName="surname"
+                                [class.is-invalid]="(surname.dirty || surname.touched) 
+                                && surname.invalid && surname.errors.required"
+                                [class.is-valid]="(surname.dirty || surname.touched) 
+                                && !(surname.invalid)"
+                                required>
+                                <small  *ngIf="(surname.dirty || surname.touched) 
+                                && surname.invalid && surname.errors.required"
+                                class="text-danger">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                <label for="profilePicture">
+                                    Profile picture
+                                </label>
+                                <div>
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="imagePicker.click()">
+                                        Pick image
+                                    </button>
+                                </div>
+                                <input type="file" class="form-control-file"
+                                id="profilePicture"
+                                #imagePicker
+                                (change)="onImagePicked($event)">
+                                </div>
+                                <div class="preview col-md-6" *ngIf="photoPreview && photoPreview != '' && registerForm.get('photo').valid">
+                                    <img [src]="photoPreview">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerUsername" 
+                            class="col-form-label">
+                                Username
+                            </label>
+                            <input type="text" class="form-control" 
+                            id="registerUsername" name="username" 
+                            placeholder="Choose an username" 
+                            aria-describedby="usernameHelp"
+                            formControlName="username"
+                            [class.is-invalid]="(username.dirty || username.touched) 
+                            && ((username.invalid) || !usernameOk )"
+                            [class.is-valid]="(username.dirty || username.touched) 
+                            && (!(username.invalid) && usernameOk)"
+                            required>
+                            <small id="usernameHelp" *ngIf="(username.dirty || username.touched) 
+                            && username.invalid && username.errors.required"
+                            class="text-danger">
+                                    This field is required.
+                            </small>
+                            <small  id="usernameHelp" *ngIf="(username.dirty || username.touched) 
+                            && username.invalid && username.errors.pattern"
+                            class="text-danger">
+                                Your username must contain letters, numbers, underscore, hyphens and dots, and be at least 3 characters long.
+                            </small>
+                            <small  id="usernameHelp" *ngIf="(username.dirty || username.touched) 
+                            && ((username.invalid && username.errors?.invalid)|| !usernameOk)"
+                            class="text-danger">
+                                Username taken.
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail" 
+                            class="col-form-label">
+                                Email address
+                            </label>
+                            <input type="email" 
+                            class="form-control" id="registerEmail" 
+                            name="email" placeholder="Enter email"
+                            formControlName="email" 
+                            [class.is-invalid]= "(email.dirty || email.touched) 
+                            && (email.invalid || !usernameOk)"
+                            [class.is-valid]="(email.dirty || email.touched) 
+                            && (!(email.invalid) && emailOk)"
+                            required>
+                            <small *ngIf="(email.dirty || email.touched) 
+                            && email.invalid && email.errors.required"
+                            class="text-danger">
+                                    This field is required.
+                            </small>
+                            <small *ngIf="(email.dirty || email.touched) 
+                            && email.invalid && email.errors.email"
+                            class="text-danger">
+                                Please enter a valid email address.
+                            </small>
+                            <small *ngIf="(email.dirty || email.touched) 
+                            && ((email.invalid && email.errors?.invalid) || !emailOk )"
+                            class="text-danger">
+                                Email already in use.
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword" 
+                            class="col-form-label">
+                                Password
+                            </label>
+                            <input type="password" class="form-control" 
+                            id="registerPassword" placeholder="Password" 
+                            aria-describedby="passwordHelp"
+                            formControlName="password"
+                            [class.is-invalid]="(password.dirty || password.touched) 
+                            && password.invalid && (password.errors.required || password.errors.pattern)"
+                            [class.is-valid]="(password.dirty || password.touched) 
+                            && !(password.invalid)"
+                            required>
+                            <small *ngIf="(password.dirty || password.touched) 
+                            && password.invalid && (password.errors.required || password.errors.pattern)"
+                            class="text-danger">
+                                Your password must be at least 7 characters long, start with a letter and include at least one capital letter, one number and one special character.
+                            </small>
+                            <small id="passwordHelp" class="form-text text-muted"
+                            *ngIf="!(password.dirty || password.touched) ">
+                                Your password must be at least 7 characters long, start with a letter and include at least one capital letter, one number and one special character.
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword" class="col-form-label">
+                                Confirm password
+                            </label>
+                            <input type="password" class="form-control" 
+                            id="confirmPassword" placeholder="Password" 
+                            aria-describedby="passwordHelp"
+                            formControlName="confirmPassword"
+                            [class.is-invalid]="(confirmPassword.dirty || confirmPassword.touched) 
+                            && confirmPassword.invalid && (confirmPassword.errors.required 
+                            || confirmPassword.errors?.invalid)"
+                            [class.is-valid]="(confirmPassword.dirty || confirmPassword.touched) 
+                            && !confirmPassword.invalid"
+                            required>
+                            <small *ngIf="(confirmPassword.dirty || confirmPassword.touched) 
+                            && confirmPassword.invalid && (confirmPassword.errors.required 
+                            || confirmPassword.errors?.invalid)"
+                            class="text-danger">
+                                Passwords do not match.
+                            </small>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="registerCity" class="col-form-label">
+                                    City
+                                </label>
+                                <input type="text" class="form-control" 
+                                id="registerCity" name="city" 
+                                placeholder=""
+                                formControlName="city"
+                                [class.is-invalid]="(city.dirty || city.touched) 
+                                && city.invalid && city.errors.required"
+                                [class.is-valid]="(city.dirty || city.touched) 
+                                && !(city.invalid)"
+                                required>
+                                <small  *ngIf="(city.dirty || city.touched) 
+                                && city.invalid && city.errors.required"
+                                class="text-danger">
+                                    This field is required.
+                                </small>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="registerCountry" class=" col-form-label">
+                                    Country
+                                </label>
+                                <input type="text" class="form-control" 
+                                id="registerCountry" name="country" 
+                                placeholder=""
+                                formControlName="country"
+                                [class.is-invalid]="(country.dirty || country.touched) 
+                                && country.invalid && country.errors.required"
+                                [class.is-valid]="(country.dirty || country.touched) 
+                                && !(country.invalid)"
+                                required>
+                                <small  *ngIf="(country.dirty || country.touched) 
+                                && country.invalid && country.errors.required"
+                                class="text-danger">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
+
+                            <div class="form-group">
+                                <label for="registerDate" class=" col-form-label">
+                                    Date of birth
+                                </label>
+                                <input type="date" name="date" 
+                                id="registerDate" max="3000-12-31" 
+                                min="1000-01-01" class="form-control"
+                                formControlName="date"
+                                [class.is-invalid]="(date.dirty || date.touched) 
+                                && date.invalid && date.errors.required"
+                                [class.is-valid]="(date.dirty || date.touched) 
+                                && !(date.invalid)"
+                                required>
+                                <small  *ngIf="(date.dirty || date.touched) 
+                                && date.invalid && date.errors.required"
+                                class="text-danger">
+                                    This field is required.
+                                </small>
+                            </div>
+                        <re-captcha (resolved)="resolved($event)"
+                        siteKey="6LdGsbwZAAAAAKQ5iBB9kIXy173RFj0aEXqVwZXQ"
+                        formControlName="recaptcha">
+                        </re-captcha>
+                        <br/>
+                        <button type="submit" class="btn btn-outline-primary btn-lg btn-block"
+                        [disabled]="(!registerForm.valid || !usernameOk || !emailOk)">
+                            Create an account
+                        </button>
+                        <br/>
+                        <div class="alert alert-success alert-dismissible fade show" 
+                        *ngIf ="showSuccessMessage"
+                         role="alert">
+                            <strong>Success!</strong> 
+                            Your request is pending.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                           <div class="alert alert-danger alert-dismissible fade show" 
+                        *ngIf ="showErrorMessages"
+                         role="alert">
+                            <strong>Registration failed!</strong> 
+                            {{serverErrorMessages}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+</div>
+
+
+

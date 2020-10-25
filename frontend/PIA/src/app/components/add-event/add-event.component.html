@@ -1,0 +1,82 @@
+<div class="container h-100">
+    <div class="card m-3 text-center bg-light">
+        <div class="card-body text-center">
+            <h3 class="card-title font-weight-light">Add a new event.</h3>
+        <div id="stepper1" class="bs-stepper">
+        <div class="bs-stepper-header">
+            <div class="step" data-target="#details">
+            <button class="step-trigger">
+                <span class="bs-stepper-circle">1</span>
+                <span class="bs-stepper-label">Details</span>
+            </button>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-target="#dates">
+            <button class="step-trigger">
+                <span class="bs-stepper-circle">2</span>
+                <span class="bs-stepper-label">Dates</span>
+            </button>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-target="#participants">
+            <button class="step-trigger">
+                <span class="bs-stepper-circle">3</span>
+                <span class="bs-stepper-label">Participants</span>
+            </button>
+            </div>
+        </div>
+        <div class="bs-stepper-content">
+            <form (ngSubmit)="onSubmit()">
+            <div id="details" class="content">
+                <div class="form-group">
+                    <label >Name</label>
+                    <input type="text" name="name" [(ngModel)]="name" class="form-control" placeholder="Enter the name of the event" required />
+                </div>
+                <div class="form-group">
+                    <label>Caption</label>
+                    <textarea class="form-control" name="caption" [(ngModel)]="caption" placeholder="What is the event about?" required></textarea>
+                </div>
+                <button (click)="next()" class="btn btn-primary" [disabled]="!name || !caption">Next</button>
+            </div>
+            <div id="dates" class="content">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Start date:</label>
+                            <input type="datetime-local" name="start" [(ngModel)]="start" class="form-control" [disabled]="startNow" />    
+                        </div>
+                        <div class="col-md-6">
+                            <label>End date:</label>
+                            <input type="datetime-local" name="end" [(ngModel)]="end" class="form-control"  [disabled]="endNever"/>    
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input class="form-check-input" name="startNow" [checked]="startNow" (change)="startNow = !startNow" type="checkbox" >
+                            <label>Start now</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-check-input" name="endNever" [checked]="endNever" (change)="endNever = !endNever" type="checkbox" >
+                            <label>End unknown</label>
+                        </div>
+                    </div>       
+            </div>
+            <button (click)="previous()" class="btn btn-primary mr-1">Previous</button>
+            <button (click)="next()" class="btn btn-primary" [disabled]="(!start && !startNow) || (!end && !endNever)">Next</button>
+
+        </div>
+            <div id="participants" class="content text-center">
+                <div class="form-group">
+                    <label>Add participants by username: </label>
+                    <textarea class="form-control"  name="participants" [(ngModel)]="participants" placeholder="Ex: user1, user2, user3"></textarea>
+                </div>
+                <button (click)="previous()" class="btn btn-primary mr-1">Previous</button>
+                <button type="submit" class="btn btn-primary ">Submit</button>
+            </div>
+            </form>
+        </div>
+        </div>
+        </div>
+    </div>
+  </div>
+  
